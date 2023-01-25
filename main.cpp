@@ -101,6 +101,9 @@ void insertNode(Node* &head, Node* current, Node* previous, Node* insert) {
     if(previous != NULL) {
       previous->setNext(insert);
     }
+    else {
+      head = insert;
+    }
     return;
   }
   else {
