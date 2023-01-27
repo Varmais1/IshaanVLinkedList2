@@ -8,6 +8,7 @@ void singlelowercase(char sentence[]);
 Node* createNewNode(char nfirstName[60], char nlastName[60], int nid, float nGPA);
 void insertNode(Node* &head, Node* current, Node* previous, Node* insert);
 void printNodes(Node* head);
+void deleteNode(Node* &head, Node* current, Node* previous, int id);
 using namespace std;
 
 int main() {
@@ -33,8 +34,9 @@ int main() {
   
   char command[10];
   cout << "Type in a command." << endl;
-  cout << "The available commands are add, delete, print, and quit." << endl;
+  
   while(true) {
+    cout << "The available commands are add, delete, print, and quit." << endl;
     cin >> command;
     singlelowercase(command);
     if(strcmp(command, "quit")==0) {
@@ -53,7 +55,9 @@ int main() {
       
     }
     else if(strcmp(command, "delete")==0) {
-
+      cout << "What is the id of the student whose record you wish to delete?" << endl;
+      cin >> id;
+      deleteNode(head, head, NULL, id);
     }
     else if(strcmp(command, "print") == 0) {
       printNodes(head);
@@ -125,6 +129,25 @@ void printNodes(Node* head) {
     printNodes(head->getNext());
   }
   return;
+}
+
+void deleteNode(Node* &head, Node* current, Node* previous, int id) {
+  if(current->getStudent()->id == id) {
+    if(previous != NULL) {
+      previous->setNext(current->getNext());
+      delete head;
+    }
+    else {
+      head = head->getNext();
+      delete current;
+    }
+    return;
+  }
+  else {
+    Node* nhead = head->getNext();
+    deleteNode(nhead, current->getNext(), current, id);
+    return;
+  }
 }
 
 //makes all letters lowercase
