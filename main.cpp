@@ -21,6 +21,10 @@ void insertNode(Node* &head, Node* current, Node* previous, Node* insert);
 void printNodes(Node* head);
 //deletes a node from the linked list
 void deleteNode(Node* &head, Node* current, Node* previous, int id);
+//gives the total GPA value
+float totalGPA(Node* head);
+//gives the lentgh of the linked list as a float
+float findLength(Node* head);
 
 //for convenience
 using namespace std;
@@ -57,7 +61,7 @@ int main() {
   //have the program run
   while(true) {
     //get a command
-    cout << "The available commands are add, delete, print, and quit." << endl;
+    cout << "The available commands are add, delete, print, average, and quit." << endl;
     cin >> command;
     singlelowercase(command);
     //if the user says quit, stop the infinite loop, which will end the program
@@ -87,9 +91,14 @@ int main() {
     else if(strcmp(command, "print") == 0) {
       printNodes(head);
     }
+    else if(strcmp(command, "average") == 0) {
+      cout << fixed;
+      cout << setprecision(2) << "Average GPA: " << totalGPA(head)/findLength(head) << endl;
+//      cout << "Amount of Students: " << findLength(head) << endl;
+    }
     //tells the user that the input was invalid
     else {
-      cout << "Please enter add, delete, print, or quit." << endl;
+      cout << "Please enter add, delete, print, average, or quit." << endl;
     }
     //formatting
     cout << endl;
@@ -104,6 +113,19 @@ Node* findLast(Node* head) {
   }
   else {
     return head;
+  }
+}
+
+float findLength(Node* head) {
+  float count = 0;
+  if(head->getNext() == NULL) {
+    count++;
+    return count;
+  }
+  else {
+    count = findLength(head->getNext());
+    count++;
+    return count;
   }
 }
 
@@ -210,6 +232,18 @@ void deleteNode(Node* &head, Node* current, Node* previous, int id) {
     deleteNode(nhead, current->getNext(), current, id);
     //cout << "Clause 3." << endl;
     return;
+  }
+}
+
+float totalGPA(Node* head) {
+  float GPA = head->getStudent()->GPA;
+  if(head->getNext() == NULL) {
+    GPA = head->getStudent()->GPA;
+    return GPA;
+  }
+  else {
+    GPA += totalGPA(head->getNext());
+    return GPA;
   }
 }
 
